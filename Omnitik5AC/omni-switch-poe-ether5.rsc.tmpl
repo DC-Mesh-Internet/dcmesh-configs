@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik Omnitik switch + WDS config
+# DC Mesh Mikrotik Omnitik switch + WDS config
 # Omnitik 5ac poe
 # THIS CONFIG IS INTENDED FOR USE WITH THE SXTSQ5-CORE-WITH-OMNI OMNITIK CONFIG
 :global nodenumber {{nodenumber}}
@@ -12,7 +12,7 @@
 :beep frequency=600 length=100ms
 
 /interface bridge
-add name=mesh fast-forward=yes protocol-mode=none comment=("nycmesh-" . $nodenumber . "-omni (HW Offload + switch VLANs + WDS passthrough)")
+add name=mesh fast-forward=yes protocol-mode=none comment=("dcmesh-" . $nodenumber . "-omni (HW Offload + switch VLANs + WDS passthrough)")
 add name=wds fast-forward=no protocol-mode=none
 add name=wlan fast-forward=no protocol-mode=none
 
@@ -80,7 +80,7 @@ set 3 forwarding-override=ether5
 
 :beep frequency=1800 length=100ms
 
-/system identity set name=("nycmesh-" . $nodenumber . "-omni")
+/system identity set name=("dcmesh-" . $nodenumber . "-omni")
 
 /system clock set time-zone-name=America/New_York time-zone-autodetect=no
 /system ntp client set enabled=yes primary-ntp=10.10.10.123 server-dns-names=0.pool.ntp.org
@@ -94,15 +94,15 @@ set 3 forwarding-override=ether5
 add comment="wlan passthrough" interface=ether5 name=ether5.28 vlan-id=28
 add comment="wds passthrough" interface=ether5 name=ether5.29 vlan-id=29
 
-/interface wireless security-profiles add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=dynamic-keys name=nycmeshnet supplicant-identity=nycmesh wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+/interface wireless security-profiles add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=dynamic-keys name=dcmeshnet supplicant-identity=dcmesh wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
-/interface wireless set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=ap-bridge security-profile=nycmeshnet ssid=("nycmesh-" . $nodenumber . "-omni") radio-name=("nycmesh-" . $nodenumber . "-omni")  wireless-protocol=802.11 wps-mode=disabled rx-chains=0,1 tx-chains=0,1 default-forwarding=no
-/interface wireless add disabled=no master-interface=wlan1 name=wlan2 ssid="-NYC Mesh Community WiFi-" wps-mode=disabled
-/interface wireless add disabled=no master-interface=wlan1 name=wlan3 ssid="nycmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=nycmeshnet
-/interface wireless add comment="uses nycmesh-xxxx-omni via mesh bridge" disabled=yes master-interface=wlan1 mode=station-bridge name=wlan4 security-profile=nycmeshnet ssid=nycmesh-xxxx-omni wds-default-bridge=mesh
+/interface wireless set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=ap-bridge security-profile=dcmeshnet ssid=("dcmesh-" . $nodenumber . "-omni") radio-name=("dcmesh-" . $nodenumber . "-omni")  wireless-protocol=802.11 wps-mode=disabled rx-chains=0,1 tx-chains=0,1 default-forwarding=no
+/interface wireless add disabled=no master-interface=wlan1 name=wlan2 ssid="-DC Mesh Community WiFi-" wps-mode=disabled
+/interface wireless add disabled=no master-interface=wlan1 name=wlan3 ssid="dcmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=dcmeshnet
+/interface wireless add comment="uses dcmesh-xxxx-omni via mesh bridge" disabled=yes master-interface=wlan1 mode=station-bridge name=wlan4 security-profile=dcmeshnet ssid=dcmesh-xxxx-omni wds-default-bridge=mesh
 
-/interface wireless connect-list add allow-signal-out-of-range=5m interface=wlan3 security-profile=nycmeshnet signal-range=-65..120
-/interface wireless connect-list add connect=no interface=wlan3 security-profile=nycmeshnet signal-range=-120..-65
+/interface wireless connect-list add allow-signal-out-of-range=5m interface=wlan3 security-profile=dcmeshnet signal-range=-65..120
+/interface wireless connect-list add connect=no interface=wlan3 security-profile=dcmeshnet signal-range=-120..-65
 
 /interface bridge port
 add bridge=wlan interface=ether5.28

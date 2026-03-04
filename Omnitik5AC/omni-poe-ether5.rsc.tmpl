@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik Omnitik config
+# DC Mesh Mikrotik Omnitik config
 # Omnitik 5ac
 :global nodenumber {{network_number}}
 
@@ -42,20 +42,20 @@ set [ find default-name=ether5 ] poe-out=forced-on comment="device to hub"
 
 /interface wireless security-profiles
 add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=\
-    dynamic-keys name=nycmeshnet supplicant-identity=nycmesh \
-    wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+    dynamic-keys name=dcmeshnet supplicant-identity=dcmesh \
+    wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
 :beep frequency=800 length=100ms
 
 /interface wireless
-set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=ap-bridge security-profile=nycmeshnet ssid=("nycmesh-" . $nodenumber . "-omni") radio-name=("nycmesh-" . $nodenumber . "-omni")  wireless-protocol=802.11 wps-mode=disabled rx-chains=0,1 tx-chains=0,1 default-forwarding=no
-add disabled=no master-interface=wlan1 name=wlan2 ssid="-NYC Mesh Community WiFi-" wps-mode=disabled
-add disabled=no master-interface=wlan1 name=wlan3 ssid="nycmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=nycmeshnet
-add comment="uses nycmesh-xxxx-omni via mesh bridge" disabled=yes master-interface=wlan1 mode=station-bridge name=wlan4 security-profile=nycmeshnet ssid=nycmesh-xxxx-omni wds-default-bridge=mesh
+set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=ap-bridge security-profile=dcmeshnet ssid=("dcmesh-" . $nodenumber . "-omni") radio-name=("dcmesh-" . $nodenumber . "-omni")  wireless-protocol=802.11 wps-mode=disabled rx-chains=0,1 tx-chains=0,1 default-forwarding=no
+add disabled=no master-interface=wlan1 name=wlan2 ssid="-DC Mesh Community WiFi-" wps-mode=disabled
+add disabled=no master-interface=wlan1 name=wlan3 ssid="dcmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=dcmeshnet
+add comment="uses dcmesh-xxxx-omni via mesh bridge" disabled=yes master-interface=wlan1 mode=station-bridge name=wlan4 security-profile=dcmeshnet ssid=dcmesh-xxxx-omni wds-default-bridge=mesh
 
 /interface wireless connect-list
-add allow-signal-out-of-range=5m interface=wlan3 security-profile=nycmeshnet signal-range=-65..120
-add connect=no interface=wlan3 security-profile=nycmeshnet signal-range=-120..-65
+add allow-signal-out-of-range=5m interface=wlan3 security-profile=dcmeshnet signal-range=-65..120
+add connect=no interface=wlan3 security-profile=dcmeshnet signal-range=-120..-65
 
 :beep frequency=900 length=100ms
 
@@ -149,7 +149,7 @@ set sctp disabled=yes
 
 :beep frequency=1800 length=100ms
 
-/system identity set name=("nycmesh-" . $nodenumber . "-omni")
+/system identity set name=("dcmesh-" . $nodenumber . "-omni")
 
 /system clock set time-zone-name=America/New_York time-zone-autodetect=no
 /system ntp client
