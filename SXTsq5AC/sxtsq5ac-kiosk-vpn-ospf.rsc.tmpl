@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik SXTsq 5ac config
+# DC Mesh Mikrotik SXTsq 5ac config
 # kiosk vpn ospf
 :global nodenumber {{nodenumber}}
 
@@ -32,24 +32,24 @@ set use-ip-firewall=yes
 
 /interface wireless security-profiles
 add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=\
-    dynamic-keys name=nycmeshnet supplicant-identity=nycmesh \
-    wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+    dynamic-keys name=dcmeshnet supplicant-identity=dcmesh \
+    wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
 /interface wireless security-profiles
-add authentication-types=wpa-eap,wpa2-eap eap-methods=eap-ttls-mschapv2 group-ciphers=tkip,aes-ccm mode=dynamic-keys mschapv2-password=5fsOpxER mschapv2-username=anonymous@citybridge.com name=linknyc supplicant-identity=anonymous@citybridge.com tls-mode=dont-verify-certificate unicast-ciphers=tkip,aes-ccm
+add authentication-types=wpa-eap,wpa2-eap eap-methods=eap-ttls-mschapv2 group-ciphers=tkip,aes-ccm mode=dynamic-keys mschapv2-password=5fsOpxER mschapv2-username=anonymous@citybridge.com name=linkdc supplicant-identity=anonymous@citybridge.com tls-mode=dont-verify-certificate unicast-ciphers=tkip,aes-ccm
 
 /interface wireless security-profiles
-add comment="linkNYC portal (public)" management-protection=allowed name=linknycportal supplicant-identity=MikroTik
+add comment="linkDC portal (public)" management-protection=allowed name=linkdcportal supplicant-identity=MikroTik
 
 /interface wireless
-set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states2" default-authentication=no disabled=no frequency=auto security-profile=linknyc ssid="LinkNYC Private" wireless-protocol=802.11
+set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states2" default-authentication=no disabled=no frequency=auto security-profile=linkdc ssid="LinkDC Private" wireless-protocol=802.11
 
 /interface wireless connect-list
-add comment="LinkNYC Portal (Public) Network" interface=wlan1 security-profile=linknycportal ssid="LinkNYC Free Wi-Fi" wireless-protocol=802.11
-add comment="LinkNYC Private Network" interface=wlan1 security-profile=linknyc ssid="LinkNYC Private" wireless-protocol=802.11
+add comment="LinkDC Portal (Public) Network" interface=wlan1 security-profile=linkdcportal ssid="LinkDC Free Wi-Fi" wireless-protocol=802.11
+add comment="LinkDC Private Network" interface=wlan1 security-profile=linkdc ssid="LinkDC Private" wireless-protocol=802.11
 add comment="Dont connect to other SSIDS not in connect-list" connect=no interface=wlan1
 
-/interface l2tp-client add allow-fast-path=yes connect-to=l2tpvpn.sn1.mesh.nycmesh.net disabled=no ipsec-secret=nycmeshnet max-mru=1200 max-mtu=1200 keepalive-timeout=disabled name=nycmesh-375p-core2 password=nycmeshnet use-ipsec=yes user=nycmesh
+/interface l2tp-client add allow-fast-path=yes connect-to=l2tpvpn.sn1.mesh.dcmesh.net disabled=no ipsec-secret=dcmeshnet max-mru=1200 max-mtu=1200 keepalive-timeout=disabled name=dcmesh-375p-core2 password=dcmeshnet use-ipsec=yes user=dcmesh
 
 /ip address
 add address=($firstip . "/" . $cidrright) interface=mesh
@@ -104,7 +104,7 @@ add address=$cidr dns-server=("10.10.10.10," . $firstip) gateway=$firstip netmas
 /routing filter add chain="ospf-in" set-bgp-communities=65000:110 set-distance=205
 /routing ospf interface add interface=mesh network-type=ptmp
 /routing ospf interface add interface=wds network-type=ptmp
-/routing ospf interface add cost=50 interface=nycmesh-375p-core2 network-type=ptmp
+/routing ospf interface add cost=50 interface=dcmesh-375p-core2 network-type=ptmp
 /routing ospf network add area=backbone network=10.69.0.0/16
 /routing ospf network add area=backbone network=10.68.0.0/16
 /routing ospf network add area=backbone network=10.70.72.0/24
@@ -143,7 +143,7 @@ set sctp disabled=yes
 
 /snmp set enabled=yes
 
-/system identity set name=("nycmesh-" . $nodenumber . "-sxtsq")
+/system identity set name=("dcmesh-" . $nodenumber . "-sxtsq")
 
 /system clock set time-zone-name=America/New_York
 /system ntp client

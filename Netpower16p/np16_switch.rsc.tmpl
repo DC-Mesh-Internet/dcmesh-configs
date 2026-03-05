@@ -1,11 +1,11 @@
-# NYC Mesh Netpower16p switch config
+# DC Mesh Netpower16p switch config
 # CRS318-16p-2S+
 :global nodenumber {{nodenumber}}
 
 /delay 15
 
 /interface bridge
-add name=mesh fast-forward=yes protocol-mode=none vlan-filtering=yes comment=("nycmesh-" . $nodenumber . "-netpower16p")
+add name=mesh fast-forward=yes protocol-mode=none vlan-filtering=yes comment=("dcmesh-" . $nodenumber . "-netpower16p")
 
 /interface ethernet
 set [ find default-name=ether1 ] poe-out=off
@@ -70,7 +70,7 @@ set 14 forwarding-override=ether16,sfp-sfpplus1,sfp-sfpplus2
 
 /snmp set enabled=no
 
-/system identity set name=("nycmesh-" . $nodenumber . "-netpower16p")
+/system identity set name=("dcmesh-" . $nodenumber . "-netpower16p")
 
 /system clock set time-zone-name=America/New_York time-zone-autodetect=no
 /system ntp client set enabled=yes primary-ntp=10.10.10.123 server-dns-names=0.pool.ntp.org

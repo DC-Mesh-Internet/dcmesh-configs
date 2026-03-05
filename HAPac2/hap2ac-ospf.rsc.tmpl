@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik HAPac2 config
+# DC Mesh Mikrotik HAPac2 config
 # HAPac2
 :global nodenumber {{nodenumber}}
 
@@ -29,18 +29,18 @@ set use-ip-firewall=yes
 
 /interface wireless security-profiles
 add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=\
-    dynamic-keys name=nycmeshnet supplicant-identity=nycmesh \
-    wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+    dynamic-keys name=dcmeshnet supplicant-identity=dcmesh \
+    wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
 /interface wireless
-set [ find default-name=wlan1 ] band=2ghz-b/g/n channel-width=20/40mhz-Ce frequency=auto country="united states3" disabled=no distance=dynamic antenna-gain=2 mode=ap-bridge security-profile=nycmeshnet ssid=("nycmesh-" . $nodenumber . "-hapac2") radio-name=("nycmesh-" . $nodenumber . "-hapac2")  wireless-protocol=802.11 wps-mode=disabled default-forwarding=no
-set [ find default-name=wlan2 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=2 frequency=5180 mode=ap-bridge security-profile=nycmeshnet ssid=("nycmesh-" . $nodenumber . "-hapac2") radio-name=("nycmesh-" . $nodenumber . "-hapac2")  wireless-protocol=802.11 wps-mode=disabled default-forwarding=no wps-mode=disabled 
-add disabled=no master-interface=wlan2 name=wlan3 ssid="-NYC Mesh Community WiFi-" wps-mode=disabled
-add disabled=no master-interface=wlan2 name=wlan4 ssid="nycmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=nycmeshnet
+set [ find default-name=wlan1 ] band=2ghz-b/g/n channel-width=20/40mhz-Ce frequency=auto country="united states3" disabled=no distance=dynamic antenna-gain=2 mode=ap-bridge security-profile=dcmeshnet ssid=("dcmesh-" . $nodenumber . "-hapac2") radio-name=("dcmesh-" . $nodenumber . "-hapac2")  wireless-protocol=802.11 wps-mode=disabled default-forwarding=no
+set [ find default-name=wlan2 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=2 frequency=5180 mode=ap-bridge security-profile=dcmeshnet ssid=("dcmesh-" . $nodenumber . "-hapac2") radio-name=("dcmesh-" . $nodenumber . "-hapac2")  wireless-protocol=802.11 wps-mode=disabled default-forwarding=no wps-mode=disabled 
+add disabled=no master-interface=wlan2 name=wlan3 ssid="-DC Mesh Community WiFi-" wps-mode=disabled
+add disabled=no master-interface=wlan2 name=wlan4 ssid="dcmesh-wds" wds-default-bridge=wds wds-mode=dynamic-mesh wps-mode=disabled security-profile=dcmeshnet
 
 /interface wireless connect-list
-add allow-signal-out-of-range=60s interface=wlan3 security-profile=nycmeshnet signal-range=-65..120
-add connect=no interface=wlan3 security-profile=nycmeshnet signal-range=-120..-65
+add allow-signal-out-of-range=60s interface=wlan3 security-profile=dcmeshnet signal-range=-65..120
+add connect=no interface=wlan3 security-profile=dcmeshnet signal-range=-120..-65
 
 /ip address
 add address=($firstip . "/" . $cidrright) interface=mesh
@@ -108,7 +108,7 @@ set sctp disabled=yes
 
 /snmp set enabled=no
 
-/system identity set name=("nycmesh-" . $nodenumber . "-hapac2")
+/system identity set name=("dcmesh-" . $nodenumber . "-hapac2")
 
 /system clock set time-zone-name=America/New_York
 /system ntp client

@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik SXTsq 5ac OSPF config
+# DC Mesh Mikrotik SXTsq 5ac OSPF config
 # OSPF mesh node
 # THIS IS THE DEFAULT CONFIG FOR AN SXT CONNECTED TO AN OMNI
 :global nodenumber {{nodenumber}}
@@ -15,15 +15,15 @@ set use-ip-firewall=yes
 
 /interface wireless security-profiles
 add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=\
-    dynamic-keys name=nycmeshnet supplicant-identity=nycmesh \
-    wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+    dynamic-keys name=dcmeshnet supplicant-identity=dcmesh \
+    wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
 /interface wireless
-set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=station-bridge security-profile=nycmeshnet wireless-protocol=802.11 wps-mode=disabled ssid="nycmesh-{{targetnn}}-omni" radio-name=("nycmesh-" . $nodenumber . "-sxt") comment="uses nycmesh-{{targetnn}}-omni via bridge"
+set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=station-bridge security-profile=dcmeshnet wireless-protocol=802.11 wps-mode=disabled ssid="dcmesh-{{targetnn}}-omni" radio-name=("dcmesh-" . $nodenumber . "-sxt") comment="uses dcmesh-{{targetnn}}-omni via bridge"
 
 /interface wireless connect-list
-add allow-signal-out-of-range=3s disabled=yes interface=wlan1 security-profile=nycmeshnet signal-range=-75..120
-add connect=no disabled=yes interface=wlan1 security-profile=nycmeshnet signal-range=-120..-75
+add allow-signal-out-of-range=3s disabled=yes interface=wlan1 security-profile=dcmeshnet signal-range=-75..120
+add connect=no disabled=yes interface=wlan1 security-profile=dcmeshnet signal-range=-120..-75
 
 /ip dhcp-client
 add dhcp-options=hostname,clientid disabled=no interface=bridge
@@ -60,7 +60,7 @@ set sctp disabled=yes
 
 /snmp set enabled=no
 
-/system identity set name=("nycmesh-" . $nodenumber . "-sxt")
+/system identity set name=("dcmesh-" . $nodenumber . "-sxt")
 
 /system clock set time-zone-name=America/New_York
 /system ntp client

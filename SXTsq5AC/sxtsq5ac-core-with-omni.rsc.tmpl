@@ -1,4 +1,4 @@
-# NYC Mesh Mikrotik SXT Router config
+# DC Mesh Mikrotik SXT Router config
 # SXTsq 5ac
 # THIS CONFIG IS INTENDED FOR USE WITH THE omni-switch-poe-ether5.rsc OMNITIK CONFIG
 :global nodenumber {{nodenumber}}
@@ -22,7 +22,7 @@
 :foreach x in=[/interface wireless find] do={ /interface wireless reset-configuration $x }
 
 /interface bridge
-add auto-mac=yes name=mesh fast-forward=no protocol-mode=none comment=("nycmesh-" . $nodenumber . "-core")
+add auto-mac=yes name=mesh fast-forward=no protocol-mode=none comment=("dcmesh-" . $nodenumber . "-core")
 add auto-mac=yes name=wds fast-forward=no protocol-mode=none
 
 /interface bridge settings
@@ -37,11 +37,11 @@ add comment="          wds bridge" interface=ether1 name=ether1.29 vlan-id=29
 
 /interface wireless security-profiles
 add authentication-types=wpa-psk,wpa2-psk management-protection=allowed mode=\
-    dynamic-keys name=nycmeshnet supplicant-identity=nycmesh \
-    wpa-pre-shared-key=nycmeshnet wpa2-pre-shared-key=nycmeshnet
+    dynamic-keys name=dcmeshnet supplicant-identity=dcmesh \
+    wpa-pre-shared-key=dcmeshnet wpa2-pre-shared-key=dcmeshnet
 
 /interface wireless
-set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=station-bridge security-profile=nycmeshnet wireless-protocol=802.11 wps-mode=disabled ssid="nycmesh-xxxx-omni" radio-name=("nycmesh-" . $nodenumber . "-core-sxt") comment="uses nycmesh-xxxx-omni via bridge"
+set [ find default-name=wlan1 ] band=5ghz-a/n/ac channel-width=20/40/80mhz-Ceee country="united states3" disabled=no distance=dynamic antenna-gain=0 installation=any frequency=5180 mode=station-bridge security-profile=dcmeshnet wireless-protocol=802.11 wps-mode=disabled ssid="dcmesh-xxxx-omni" radio-name=("dcmesh-" . $nodenumber . "-core-sxt") comment="uses dcmesh-xxxx-omni via bridge"
 
 /ip address
 add address=($firstip . "/" . $cidrright) interface=mesh
@@ -102,7 +102,7 @@ set sctp disabled=yes
 
 /snmp set enabled=no
 
-/system identity set name=("nycmesh-" . $nodenumber . "-core-sxt")
+/system identity set name=("dcmesh-" . $nodenumber . "-core-sxt")
 
 /system clock set time-zone-name=America/New_York time-zone-autodetect=no
 

@@ -1,4 +1,4 @@
-# NYC Mesh hEX PoE switch config
+# DC Mesh hEX PoE switch config
 # hEX PoE
 :global nodenumber {{nodenumber}}
 
@@ -8,7 +8,7 @@
 :beep frequency=600 length=100ms
 
 /interface bridge
-add name=mesh fast-forward=yes protocol-mode=none comment=("nycmesh-" . $nodenumber . "-hex (switch config)")
+add name=mesh fast-forward=yes protocol-mode=none comment=("dcmesh-" . $nodenumber . "-hex (switch config)")
 
 :beep frequency=700 length=100ms
 
@@ -63,7 +63,7 @@ set 4 forwarding-override=ether1
 
 :beep frequency=1800 length=100ms
 
-/system identity set name=("nycmesh-" . $nodenumber . "-hex")
+/system identity set name=("dcmesh-" . $nodenumber . "-hex")
 
 /system clock set time-zone-name=America/New_York time-zone-autodetect=no
 /system ntp client set enabled=yes primary-ntp=10.10.10.123 server-dns-names=0.pool.ntp.org
