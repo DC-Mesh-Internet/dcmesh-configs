@@ -1,25 +1,25 @@
 ### PART ###
-## 1611108377
-##WA.v8.7.1
+## 1772935281
+##WA.v8.7.18
 #board.sysid=0xe7f9
 #board.cpurevision=0x00001123
 #board.arch=0
 #board.fcc_id=SWX-LBE5ACG2
-#bonameard.=LiteBeam 5AC Gen2
+#board.name=LiteBeam 5AC
 #board.shortname=L5C
 #board.model=LBE-5AC-Gen2
-#board.timestamp=1550019827
-#board.bom=13-00497-22
+#board.timestamp=1677257409
+#board.bom=13-00497-32
 #board.netmodes=3
-#board.hwaddr=18E8298CAB4C
-#board.device_id=462e591f1aac93fa62e03e8dd933ab58
+#board.hwaddr=E43883B48CC5
+#board.device_id=45810577f91ea8f664b24517d8229d55
 #board.reboot=40
 #board.upgrade=150
 #board.phycount=1
 #board.phy.1.maxmtu=2024
 #board.fcc_unii_activated=1
 #board.fcc_unii_switchable=0
-#board.required_fw_version=525571
+#board.required_fw_version=526084
 #radio.1.name=
 #radio.1.shortname=
 #radio.1.bus=pci
@@ -47,7 +47,7 @@
 #radio.1.caps=2900492308
 #radio.1.caps2=0
 #radio.1.eirp.limit=1
-#radio.1.regdomain_flags=fcc_new_grant,ts=0x5c636cf3
+#radio.1.regdomain_flags=fcc_new_grant,ts=0x63f8eac1
 #radio.1.chains=2
 #radio.1.ieee_mode_a=1
 #radio.1.ptp_only=1
@@ -75,7 +75,7 @@
 #radio.2.caps=12
 #radio.2.caps2=0
 #radio.2.eirp.limit=0
-#radio.2.regdomain_flags=ts=0x5c636cf3
+#radio.2.regdomain_flags=ts=0x63f8eac1
 #radio.2.chains=1
 #radio.2.ieee_mode_bg=1
 #radio.2.web_exclude=1
@@ -86,10 +86,10 @@
 #feature.g3=0
 #feature.ext_reset=0
 #feature.poe_passthrough=0
-#e9edd8a49357707595fe260425a83cd0
+#3ee2bbc5bcab1e35d00bb6a6d7ce8054
 ### PART ###
 aaa.status=disabled
-system.cfg.editor.webui=2021-01-20T02:06:06.474Z
+system.cfg.editor.webui=2026-03-07T22:37:24.775Z
 igmpproxy.status=disabled
 tshaper.status=disabled
 iptables.sys.portfw.status=disabled
@@ -128,6 +128,7 @@ netconf.1.devname=ath0
 netconf.1.status=enabled
 netconf.status=enabled
 resolv.host.1.name=dcmesh-lbe-{{wardnumber}}-{{nodenumber}}
+sshd.hostkey.dss=enabled
 sshd.port=22
 sshd.auth.passwd=enabled
 sshd.status=enabled
@@ -143,6 +144,7 @@ wpasupplicant.status=enabled
 wpasupplicant.profile.1.network.2.status=disabled
 wpasupplicant.profile.1.network.2.priority=2
 wpasupplicant.profile.1.network.2.key_mgmt.1.name=NONE
+wpasupplicant.profile.1.network.1.status=enabled
 wpasupplicant.profile.1.network.1.ssid=ubnt
 wpasupplicant.profile.1.network.1.psk=dcmeshnet
 wpasupplicant.profile.1.network.1.proto.1.name=RSN
@@ -169,7 +171,6 @@ wireless.1.devname=ath0
 wireless.1.amsdu=3
 wireless.1.ampdu.status=enabled
 wireless.1.ampdu.frames=32
-wireless.1.addmtikie=enabled
 wireless.status=enabled
 users.2.uid=100
 users.2.status=disabled
@@ -183,7 +184,6 @@ unms.uri=wss://10.70.76.21:443+jPOBA8zAHXSDoixgwg9Jtgyj5kIo3cBoM4378vgRXptxn4jO+
 unms.status=enabled
 telnetd.status=disabled
 telnetd.port=23
-system.timezone.name=EST5EDT
 system.timezone=EST5EDT,M3.2.0,M11.1.0
 system.leds.nightmode=disabled
 system.external.reset=enabled
@@ -194,8 +194,8 @@ system.airosx.prov.status=enabled
 syslog.status=enabled
 syslog.remote.status=disabled
 syslog.remote.port=514
-snmp.status=disabled
-snmp.community=public
+snmp.status=enabled
+snmp.community=dcmesh
 radio.1.txpower=22
 radio.1.status=enabled
 radio.1.scanbw.status=disabled
@@ -211,21 +211,23 @@ radio.1.polling_ff_sta_rx_rssi_th=0
 radio.1.polling_ff_flex=0
 radio.1.polling_ff_dur=0
 radio.1.polling_ff_dl_ratio=50
+radio.1.polling_11ac_11n_compat=0
 radio.1.polling=enabled
 radio.1.obey=enabled
 radio.1.mode=managed
 radio.1.low_txpower_mode=disabled
 radio.1.ieee_mode=auto
-radio.1.freq=5165
+radio.1.freq=5220
 radio.1.ff_cap_rep=0
 radio.1.dfs.status=enabled
+radio.1.dfs.slave=1
 radio.1.devname=ath0
 radio.1.cwm.mode=1
 radio.1.cwm.enable=0
 radio.1.countrycode=840
 radio.1.cmsbias=0
 radio.1.chanbw=0
-radio.1.center.1.freq=5165
+radio.1.center.1.freq=5220
 radio.1.cable.loss=0
 radio.1.atpc.threshold=36
 radio.1.atpc.status=disabled
@@ -248,16 +250,24 @@ netmode=bridge
 httpd.status=enabled
 httpd.session.timeout=900
 httpd.port=80
+httpd.https.tlsv1=enabled
 httpd.https.status=enabled
 httpd.https.port=443
 gui.network.advanced.status=disabled
 gui.language=en_US
 discovery.status=enabled
+discovery.lldp.status=enabled
 discovery.cdp.status=disabled
 airview.status=enabled
+aaa.1.wpa.1.pairwise=CCMP
 aaa.1.wpa.psk=dcmeshnet
+aaa.1.wpa.mode=2
+aaa.1.wpa.key.1.mgmt=WPA-PSK
 aaa.1.status=disabled
+aaa.1.ssid=dcmesh-1-central
+aaa.1.radius.auth.1.status=disabled
 aaa.1.radius.auth.1.port=1812
 aaa.1.radius.acct.1.status=disabled
 aaa.1.radius.acct.1.port=1813
+aaa.1.devname=ath0
 users.1.password=CtS8qOe7RcaUVPSpoIobZYz7iE5lIe9vp4FPeAVXFzRHyECX4ak5VCrseNBFxUj0
