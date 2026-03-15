@@ -1,10 +1,19 @@
 # DC Mesh Mikrotik Omnitik config
 # Omnitik 5ac
 :global nodenumber {{network_number}}
+:global wardnumber {{ward_number}}
+
+:global wardID ([:pick $wardnumber 0 1] + 0)
+
+:global temp ($nodenumber / 254)
+:global tempStr [:tostr $temp]
+:global dotPos [:find $tempStr "."]
+:global endPos [:if ($dotPos = -1) do={[:len $tempStr]} else={$dotPos}]
+:global result [:tonum [:pick $tempStr 0 $endPos]]
 
 :global cidr ("10." . ((96+(nodenumber>>10))+0) . "." . (((nodenumber>>2)&255)+0) . "." . (((nodenumber&3)<<6)+0) . "/26")
-:global ipthirdoctet ( [ :pick $nodenumber ([:len $nodenumber] - 5) ([:len $nodenumber] - 2) ] + 0 )
-:global ipfourthoctet ( [ :pick $nodenumber ([:len $nodenumber] - 2) ([:len $nodenumber]) ] + 0 )
+:global ipthirdoctet ($wardID * 30) + $result
+:global ipfourthoctet ($nodenumber % 254)
 
 :global cidrleft [ :pick $cidr 0 ( [ :find $cidr "/" ] ) ]
 :global cidrright [ :pick $cidr (( [ :find $cidr "/" ] )+1) 100 ]
@@ -15,6 +24,7 @@
 :global dhcprange (($firstip+5) . "-" . ($lastip-5))
 :global meship ("10.69." . $ipthirdoctet . "." . $ipfourthoctet)
 :global wdsip ("10.68." . $ipthirdoctet . "." . $ipfourthoctet)
+
 
 /delay 15
 
